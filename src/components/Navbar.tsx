@@ -128,41 +128,66 @@ export default function Navbar() {
         style={{
           position: 'fixed',
           inset: 0,
-          background: 'rgba(255, 255, 255, 0.98)',
-          backdropFilter: 'blur(20px)',
+          background: 'rgba(255, 255, 255, 0.8)',
+          backdropFilter: 'blur(30px) saturate(200%)',
           zIndex: 999,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '2rem',
-          transition: 'all 0.4s var(--bezier-cinematic)',
+          gap: '1.5rem',
+          transition: 'all 0.6s var(--bezier-cinematic)',
           opacity: mobileMenuOpen ? 1 : 0,
           pointerEvents: mobileMenuOpen ? 'all' : 'none',
           transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(-20px)'
         }}
       >
+        <div style={{ position: 'absolute', top: '15%', opacity: 0.05, fontSize: '10rem', fontWeight: 900, pointerEvents: 'none' }}>PRIME</div>
+
         {navLinks.map((link, i) => (
           <Link
             key={link.name}
             href={link.href}
             onClick={() => setMobileMenuOpen(false)}
             style={{
-              fontSize: '1.5rem',
-              fontWeight: 800,
+              fontSize: '2rem',
+              fontWeight: 900,
               color: 'var(--foreground)',
+              letterSpacing: '-0.04em',
               transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(20px)',
-              transition: `all 0.4s var(--bezier-cinematic) ${0.1 + i * 0.05}s`,
-              opacity: mobileMenuOpen ? 1 : 0
+              transition: `all 0.6s var(--bezier-cinematic) ${0.1 + i * 0.1}s`,
+              opacity: mobileMenuOpen ? 1 : 0,
+              textDecoration: 'none'
             }}
           >
             {link.name}
           </Link>
         ))}
-        <div style={{ height: '1px', width: '40px', background: 'rgba(0,0,0,0.1)', margin: '1rem 0' }} />
-        <Link href="/signin" onClick={() => setMobileMenuOpen(false)} style={{ fontSize: '1.25rem', fontWeight: 600 }}>Log In</Link>
-        <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
-          <button className="btn-billion" style={{ fontSize: '1.1rem', padding: '1rem 2.5rem' }}>Get Started</button>
+        <div style={{ height: '1px', width: '60px', background: 'rgba(0,0,0,0.1)', margin: '1.5rem 0' }} />
+        <Link
+          href="/signin"
+          onClick={() => setMobileMenuOpen(false)}
+          style={{
+            fontSize: '1.25rem',
+            fontWeight: 700,
+            color: 'var(--secondary)',
+            opacity: mobileMenuOpen ? 1 : 0,
+            transition: 'all 0.6s var(--bezier-cinematic) 0.5s',
+            transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(10px)'
+          }}
+        >
+          Log In
+        </Link>
+        <Link
+          href="/signup"
+          onClick={() => setMobileMenuOpen(false)}
+          style={{
+            opacity: mobileMenuOpen ? 1 : 0,
+            transition: 'all 0.6s var(--bezier-cinematic) 0.6s',
+            transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(10px)'
+          }}
+        >
+          <button className="btn-billion" style={{ fontSize: '1.1rem', padding: '1.25rem 3rem' }}>Get Started</button>
         </Link>
       </div>
 

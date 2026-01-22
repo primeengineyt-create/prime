@@ -149,6 +149,48 @@ export default function Orb3D({ className, style }: Orb3DProps) {
             0%, 100% { transform: scale(0.6) rotate(0deg); opacity: 1; }
             50% { transform: scale(0) rotate(180deg); opacity: 0; }
         }
+
+        @media (max-width: 1024px) {
+          .orb-container {
+            width: 400px;
+            height: 400px;
+            right: -10%;
+            top: 15%;
+          }
+          .orb-body {
+            width: 220px;
+            height: 220px;
+          }
+          .orb-glow {
+            width: 350px;
+            height: 350px;
+          }
+          .orb-star svg {
+            width: 50px;
+            height: 50px;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .orb-container {
+            width: 300px;
+            height: 300px;
+            right: -20%;
+            top: 10%;
+            opacity: 0.6;
+          }
+          .orb-body {
+            width: 160px;
+            height: 160px;
+          }
+          .orb-glow {
+            width: 250px;
+            height: 250px;
+          }
+          .star-mini {
+            display: none;
+          }
+        }
       `}</style>
     </div>
   );

@@ -309,6 +309,27 @@ export default function Hero() {
                         0 0 0 1px rgba(0,0,0,0.02);
                     transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
                 }
+                
+                @media (max-width: 500px) {
+                    .magic-bar {
+                        flex-direction: column;
+                        border-radius: 24px;
+                        padding: 1.25rem;
+                        gap: 1rem;
+                    }
+                    .magic-bar input {
+                        width: 100%;
+                        text-align: center;
+                        padding: 0.5rem 0;
+                    }
+                    .magic-bar .btn-billion {
+                        width: 100%;
+                        justify-content: center;
+                    }
+                    .ai-orb {
+                        display: none;
+                    }
+                }
                 .magic-bar:hover, .magic-bar:focus-within {
                     transform: translateY(-2px);
                     background: white;
