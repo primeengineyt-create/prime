@@ -20,9 +20,9 @@ export default function ContactPage() {
     };
 
     const contactMethods = [
-        { title: 'Email', value: 'hello@primeengine.ai', link: 'mailto:hello@primeengine.ai', color: '#FF4D00' },
+        { title: 'Email', value: 'hello@primeengine.in', link: 'mailto:hello@primeengine.in', color: '#FF4D00' },
         { title: 'Live Chat', value: 'Available 24/7', link: '#', color: '#9F0FFF' },
-        { title: 'Twitter', value: '@PrimeEngineAI', link: '#', color: '#6E38FF' },
+        { title: 'Twitter', value: '@PrimeEngineIn', link: '#', color: '#6E38FF' },
     ];
 
     return (

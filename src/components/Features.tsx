@@ -110,13 +110,13 @@ export default function Features() {
 
                 <div ref={gridRef} className="bento-grid">
                     {/* Primary Card */}
-                    <TiltCard className="bento-item feature-card-primary" style={{ gridColumn: 'span 2', gridRow: 'span 2' }}>
+                    <TiltCard className="bento-item feature-card-primary" style={{ gridColumn: 'span var(--primary-span, 2)', gridRow: 'span 2' }}>
                         <div className="card-glow" />
                         <div style={{ marginBottom: 'auto', position: 'relative', zIndex: 10 }}>
                             <div className="glass-pill" style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: 'none', fontSize: '0.6rem' }}>{features[0].tag}</div>
                         </div>
                         <div style={{ marginTop: '1.5rem', position: 'relative', zIndex: 10 }}>
-                            <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'white', marginBottom: '0.75rem' }}>{features[0].title}</h3>
+                            <h3 style={{ fontSize: 'clamp(1.2rem, 3vw, 1.75rem)', fontWeight: 700, color: 'white', marginBottom: '0.75rem' }}>{features[0].title}</h3>
                             <p style={{ fontSize: '0.9rem', opacity: 0.7, lineHeight: 1.5, marginBottom: '1.5rem' }}>{features[0].desc}</p>
 
                             <div className="counter-trigger" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
@@ -144,25 +144,30 @@ export default function Features() {
                     {features.slice(1).map((feature, i) => (
                         <TiltCard
                             key={feature.title}
-                            className="bento-item feature-card"
+                            className={`bento-item feature-card card-variant-${i}`}
                             style={{
-                                gridColumn: i === 3 ? 'span 3' : i === 2 ? 'span 1' : 'span 2',
+                                gridColumn: i === 3 ? 'span var(--special-span, 2)' : 'span 1',
                             }}
                             delay={(i + 1) * 0.1}
                         >
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                                <h3 style={{ fontSize: '1rem', fontWeight: 700 }}>{feature.title}</h3>
+                                <h3 style={{ fontSize: '0.95rem', fontWeight: 700 }}>{feature.title}</h3>
                                 <div className="icon-wrapper">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">{feature.icon}</svg>
                                 </div>
                             </div>
-                            <p style={{ fontSize: '0.85rem', color: 'var(--secondary)', marginTop: '0.75rem', fontWeight: 500, lineHeight: 1.5 }}>{feature.desc}</p>
+                            <p style={{ fontSize: '0.8rem', color: 'var(--secondary)', marginTop: '0.75rem', fontWeight: 500, lineHeight: 1.5 }}>{feature.desc}</p>
                         </TiltCard>
                     ))}
                 </div>
             </div>
 
             <style jsx>{`
+                .shimmer {
+                    position: relative;
+                    overflow: hidden;
+                    font-size: 0.65rem;
+                }
                 .shimmer {
                     position: relative;
                     overflow: hidden;
@@ -195,13 +200,40 @@ export default function Features() {
                     50% { background-position: 100% 50%; }
                     100% { background-position: 0% 50%; }
                 }
+
+                .bento-grid {
+                    --primary-span: 2;
+                    --special-span: 2;
+                }
                 
+                @media (max-width: 1024px) {
+                    .bento-grid {
+                        --primary-span: 2;
+                        --special-span: 2;
+                    }
+                }
+                
+                @media (max-width: 640px) {
+                    .bento-grid {
+                        --primary-span: 1;
+                        --special-span: 1;
+                    }
+                }
+
                 .bento-item {
                     opacity: 0;
-                    transform: translateY(20px);
+                    transform: translateY(30px);
+                    background: white;
+                    border: 1px solid rgba(0,0,0,0.06);
+                    border-radius: 20px;
+                    padding: 2.25rem;
+                    display: flex;
+                    flex-direction: column;
                     transition: all 0.7s var(--bezier-cinematic);
-                    padding: 1.5rem;
+                    position: relative;
+                    overflow: hidden;
                 }
+
                 .bento-item.visible {
                     opacity: 1;
                     transform: translateY(0);
@@ -210,16 +242,12 @@ export default function Features() {
                 .feature-card-primary {
                     background: var(--foreground);
                     color: white;
-                    position: relative;
-                    overflow: hidden;
                 }
                 
                 .card-glow {
                     position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    width: 150%;
-                    height: 150%;
+                    top: 50%; left: 50%;
+                    width: 150%; height: 150%;
                     background: radial-gradient(circle, var(--primary), transparent 50%);
                     opacity: 0.08;
                     animation: glow-pulse 4s ease-in-out infinite;
@@ -230,99 +258,47 @@ export default function Features() {
                     50% { opacity: 0.1; transform: translate(-50%, -50%) scale(1.05); }
                 }
                 
-                .floating-shapes {
-                    position: absolute;
-                    inset: 0;
-                    overflow: hidden;
-                    pointer-events: none;
-                }
-                .shape {
+                .floating-shapes .shape {
                     position: absolute;
                     border-radius: 50%;
                     background: linear-gradient(135deg, var(--accent-solar), var(--primary));
                     opacity: 0.08;
                 }
-                .shape-1 {
-                    width: 60px;
-                    height: 60px;
-                    top: 15%;
-                    right: 10%;
-                    animation: float-1 8s ease-in-out infinite;
-                }
-                .shape-2 {
-                    width: 40px;
-                    height: 40px;
-                    bottom: 25%;
-                    right: 25%;
-                    animation: float-2 6s ease-in-out infinite;
-                }
-                @keyframes float-1 {
-                    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-                    50% { transform: translate(-15px, 15px) rotate(180deg); }
-                }
-                @keyframes float-2 {
-                    0%, 100% { transform: translate(0, 0) scale(1); }
-                    50% { transform: translate(10px, -10px) scale(1.1); }
-                }
+                .shape-1 { width: 60px; height: 60px; top: 15%; right: 10%; animation: float-1 8s ease-in-out infinite; }
+                .shape-2 { width: 40px; height: 40px; bottom: 25%; right: 25%; animation: float-2 6s ease-in-out infinite; }
+                
+                @keyframes float-1 { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-15px, 15px) rotate(180deg); } }
+                @keyframes float-2 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(10px, -10px) scale(1.1); } }
                 
                 .mini-stat {
                     text-align: center;
                     padding: 0.75rem;
                     background: rgba(255,255,255,0.05);
-                    border-radius: 8px;
+                    border-radius: 12px;
                     border: 1px solid rgba(255,255,255,0.08);
                 }
-                .mini-stat-value {
-                    font-size: 1rem;
-                    font-weight: 800;
-                    color: white;
-                }
-                .mini-stat-label {
-                    font-size: 0.55rem;
-                    text-transform: uppercase;
-                    letter-spacing: 0.08em;
-                    opacity: 0.5;
-                    margin-top: 0.15rem;
-                }
-                
-                .feature-card {
-                    position: relative;
-                    background: white;
-                    transition: all 0.4s var(--bezier-cinematic);
-                }
-                .feature-card:hover {
-                    transform: translateY(-3px);
-                    box-shadow: 0 15px 30px rgba(0,0,0,0.06);
-                }
-                .feature-card::before {
-                    content: '';
-                    position: absolute;
-                    inset: 0;
-                    border-radius: inherit;
-                    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(110, 56, 255, 0.06), transparent 40%);
-                    opacity: 0;
-                    transition: opacity 0.5s;
-                    pointer-events: none;
-                }
-                .feature-card:hover::before {
-                    opacity: 1;
-                }
+                .mini-stat-value { font-size: 1rem; font-weight: 800; color: white; }
+                .mini-stat-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.5; margin-top: 0.15rem; }
                 
                 .icon-wrapper {
-                    width: 32px;
-                    height: 32px;
-                    border-radius: 8px;
-                    background: rgba(110, 56, 255, 0.08);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+                    width: 36px; height: 36px;
+                    border-radius: 12px;
+                    background: #f1f5f9;
+                    display: flex; align-items: center; justify-content: center;
                     color: var(--primary);
-                    transition: all 0.4s;
+                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 }
-                .feature-card:hover .icon-wrapper {
+                .feature-card-primary .icon-wrapper { background: rgba(255,255,255,0.1); color: white; }
+                
+                .bento-item:hover .icon-wrapper {
                     background: var(--primary);
                     color: white;
-                    transform: rotate(5deg) scale(1.05);
+                    transform: rotate(5deg) scale(1.1);
+                }
+                .feature-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+                    border-color: rgba(110, 56, 255, 0.2);
                 }
             `}</style>
         </section>

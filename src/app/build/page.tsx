@@ -42,6 +42,7 @@ export default function BuildPage() {
     const [buildProgress, setBuildProgress] = useState(0);
     const [currentAction, setCurrentAction] = useState<AIAction | null>(null);
     const [filesCreated, setFilesCreated] = useState<string[]>([]);
+    const [showChatSidebar, setShowChatSidebar] = useState(true);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -696,7 +697,7 @@ export default function BuildPage() {
             {/* Main Content */}
             <div className="main-content">
                 {/* Left Panel - Chat */}
-                <aside className="chat-panel">
+                <aside className={`chat-panel ${showChatSidebar ? 'open' : ''}`}>
                     <div className="chat-header">
                         <div className="chat-title">
                             <div className="ai-avatar">
@@ -774,35 +775,57 @@ export default function BuildPage() {
                     </form>
                 </aside>
 
-                {/* Agent Panel */}
-                {showAgentPanel && (
-                    <aside className="agent-panel">
-                        <div className="agent-header">
-                            <span>🤖 Agents</span>
-                            <span className="agent-count">{agents.filter(a => a.status === 'done').length}/{agents.length}</span>
-                        </div>
-                        <div className="agents-list">
-                            {agents.map(agent => (
-                                <div key={agent.id} className={`agent-card ${agent.status}`}>
-                                    <div className="agent-avatar" style={{ background: agent.color }}>
-                                        {agent.avatar}
-                                    </div>
-                                    <div className="agent-info">
-                                        <div className="agent-name">{agent.name}</div>
-                                        <div className="agent-role">{agent.role}</div>
-                                    </div>
-                                    <div className={`agent-status ${agent.status}`}>
-                                        {agent.status === 'idle' && '⏸️'}
-                                        {agent.status === 'thinking' && '🤔'}
-                                        {agent.status === 'working' && <span className="spinner" />}
-                                        {agent.status === 'done' && '✅'}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </aside>
-                )}
+                <button
+                    className="mobile-toggle-chat"
+                    onClick={() => setShowChatSidebar(!showChatSidebar)}
+                    style={{
+                        position: 'fixed',
+                        bottom: '1.5rem',
+                        left: '1.5rem',
+                        width: '50px',
+                        height: '50px',
+                        borderRadius: '50%',
+                        background: 'var(--foreground)',
+                        color: 'white',
+                        border: 'none',
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+                        display: 'none', // Hidden on desktop via CSS
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 100,
+                        cursor: 'pointer',
+                        fontSize: '1.2rem'
+                    }}
+                >
+                    {showChatSidebar ? '✕' : '💬'}
+                </button>
 
+                {/* Agent Panel */}
+                <aside className={`agent-panel ${showAgentPanel ? 'open' : ''}`}>
+                    <div className="agent-header">
+                        <span>🤖 Agents</span>
+                        <span className="agent-count">{agents.filter(a => a.status === 'done').length}/{agents.length}</span>
+                    </div>
+                    <div className="agents-list">
+                        {agents.map(agent => (
+                            <div key={agent.id} className={`agent-card ${agent.status}`}>
+                                <div className="agent-avatar" style={{ background: agent.color }}>
+                                    {agent.avatar}
+                                </div>
+                                <div className="agent-info">
+                                    <div className="agent-name">{agent.name}</div>
+                                    <div className="agent-role">{agent.role}</div>
+                                </div>
+                                <div className={`agent-status ${agent.status}`}>
+                                    {agent.status === 'idle' && '⏸️'}
+                                    {agent.status === 'thinking' && '🤔'}
+                                    {agent.status === 'working' && <span className="spinner" />}
+                                    {agent.status === 'done' && '✅'}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </aside>
                 {/* Preview/Code Panel */}
                 <main className="preview-panel">
                     <div className="panel-header">
@@ -1162,11 +1185,63 @@ export default function BuildPage() {
                     animation: spin 0.8s linear infinite;
                 }
 
+                /* RESPONSIVE LAYOUT */
                 .main-content {
                     flex: 1;
                     display: flex;
                     overflow: hidden;
                     position: relative;
+                    flex-direction: row;
+                }
+
+                @media (max-width: 1024px) {
+                    .chat-panel {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        bottom: 0;
+                        width: 320px !important;
+                        transform: translateX(-100%);
+                        transition: transform 0.4s var(--bezier-cinematic);
+                        z-index: 50;
+                    }
+                    .chat-panel.open {
+                        transform: translateX(0);
+                    }
+                    .agent-panel {
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        bottom: 0;
+                        width: 240px !important;
+                        transform: translateX(100%);
+                        transition: transform 0.4s var(--bezier-cinematic);
+                        z-index: 50;
+                    }
+                    .agent-panel.open {
+                        transform: translateX(0);
+                    }
+                    .mobile-toggle-chat {
+                        display: flex !important;
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    .top-bar {
+                        padding: 0 1rem;
+                        height: 60px;
+                    }
+                    .divider { display: none; }
+                    .logo { font-size: 0.9rem; }
+                    .chat-panel {
+                        width: 100% !important;
+                    }
+                    .preview-container {
+                        padding: 1rem;
+                    }
+                    .preview-frame {
+                        width: 100% !important;
+                    }
                 }
 
                 /* MODERN CHAT PANEL */
@@ -1179,6 +1254,7 @@ export default function BuildPage() {
                     z-index: 20;
                     box-shadow: 10px 0 40px rgba(0,0,0,0.02);
                     backdrop-filter: blur(20px);
+                    transition: width 0.3s ease;
                 }
 
                 .chat-header {

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import MouseMoveHandler from '@/components/MouseMoveHandler'
+import ScrollProgress from '@/components/ScrollProgress'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -22,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <body>
+        <ScrollProgress />
         <MouseMoveHandler />
         {children}
       </body>

@@ -5,10 +5,34 @@ export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     const links = {
-        Product: ['Features', 'AI Core', 'DevOps', 'Security', 'Pricing'],
-        Company: ['About', 'Careers', 'Blog', 'Newsroom', 'Brand'],
-        Resources: ['Documentation', 'API Reference', 'Status', 'Community', 'Github'],
-        Legal: ['Privacy', 'Terms', 'Security', 'Cookies', 'DPA']
+        Product: [
+            { name: 'Features', href: '/features' },
+            { name: 'AI Core', href: '/ai' },
+            { name: 'DevOps', href: '#' },
+            { name: 'Security', href: '#' },
+            { name: 'Pricing', href: '/pricing' }
+        ],
+        Company: [
+            { name: 'About', href: '/about' },
+            { name: 'Careers', href: '#' },
+            { name: 'Blog', href: '/blog' },
+            { name: 'Newsroom', href: '#' },
+            { name: 'Brand', href: '#' }
+        ],
+        Resources: [
+            { name: 'Documentation', href: '/docs' },
+            { name: 'API Reference', href: '#' },
+            { name: 'Status', href: '#' },
+            { name: 'Community', href: '/community' },
+            { name: 'Github', href: 'https://github.com' }
+        ],
+        Legal: [
+            { name: 'Privacy', href: '/privacy' },
+            { name: 'Terms', href: '/terms' },
+            { name: 'Security', href: '#' },
+            { name: 'Cookies', href: '#' },
+            { name: 'DPA', href: '#' }
+        ]
     };
 
     return (
@@ -102,9 +126,9 @@ export default function Footer() {
                             </h4>
                             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                                 {items.map(item => (
-                                    <li key={item}>
-                                        <Link href="#" style={{ fontSize: '0.9rem', color: 'var(--secondary)', fontWeight: 500, transition: 'color 0.3s ease' }}>
-                                            {item}
+                                    <li key={item.name}>
+                                        <Link href={item.href} style={{ fontSize: '0.9rem', color: 'var(--secondary)', fontWeight: 500, transition: 'color 0.3s ease' }}>
+                                            {item.name}
                                         </Link>
                                     </li>
                                 ))}
